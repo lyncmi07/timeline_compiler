@@ -1,0 +1,72 @@
+Sets
+{Ident header} = [a..z, A..Z]
+{Ident tail} = {Ident header} | {Digits} | [ ]
+{String chars} = {All printable characters} - ["]
+{Digits} = [0..9]
+
+Terminals
+Identifier = {Ident header}{Ident tail}*
+StringLiteral = '"' {String chars}* '"'
+Integer = {Digits}*
+Float = {Digits}* | {Digits}{Digits}* '.' {Digits}{Digits}*
+OperatorSym = [*/-+]
+CommentStartSym = '/*'
+CommentEndSym = '*/'
+
+NonTerminals
+<program> ::= 	<code block> |
+				<code block> <program> |
+				<class definition> |
+				<class definition> <program>
+<code block> ::= 	<line> |
+					<line> <code block>
+<line> ::= <statement> ';'
+<statement> ::= 	<variable definition> |
+					<variable initiation> |
+					<function call>
+<variable initiation> ::= identifier identifier
+<variable definition> ::= 	<variable initiation> '=' <expression> |
+							identifier '=' <expression> |
+							<sub variable identifier> '=' <expression>
+<expression> ::= 	<subexpression> |
+					<object definition> |
+					<equation> |
+					<array immediate definition>
+<sub expression> ::= 	Identifier |
+						Integer |
+						Float |
+						StringLiteral |
+						<Sub variable identifier> |
+						<Function call>
+<equation> ::= 	<sub expression> Operator <sub expression> |
+				<sub expression> Operator <equation>
+<object definition> ::= 'new' <function call> <array immediate definition>
+<function call> ::= identifier '(' <parameter setting statement> ')' |
+					identifier '(' ')'
+<parameter setting statement> ::= 	<last parameter setting> |
+									<not last parameter setting> <parameter setting statement>
+<last parameter setting> ::= <expression>
+<not last parameter setting> ::= <expression> ','
+<sub variable identifier> ::= 	<possible object> '.' <possible object> |
+								<possible object> '.' <sub variable identifier>
+<possible object> ::= 	identifier |
+						<function call>
+<array immediate definition> ::= '[' <parameter setting statement> ']'
+<class definition> ::= 	'class' identifier 'extends' identifier '{' <class code block> '}' |
+						'class' identifier 'extends' identifier '{' '}'
+<class code block> ::= 	<code block> |
+						<code block> <class code block> |
+						<method definition> |
+						<method definition> <class code block> |
+						<construction definition> |
+						<construction definition> <class code block>
+<method definition> ::= 	identifier identifier '(' <parameter definition statement> ')' '{' <code block> '}' |
+							identifier identifier '(' <parameter definition statement> ')' '{' '}'
+<parameter definition statement> ::= 	'void' |
+										<parameter definition statement filled>
+<parameter definition statement filled> ::= <last parameter definition> |
+											<not last parameter definition> <parameter definition statement filled>
+<last parameter definition> ::= <variable initiation>
+<not last parameter definition> ::= <variable initation> ','
+<construction definition> ::= 	'_construct' '(' <parameter definition statement> ')' '{' <code block> '}' |
+								'_construct' '(' <parameter definition statement> ')' '{' '}'

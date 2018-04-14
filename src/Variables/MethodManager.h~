@@ -1,0 +1,22 @@
+#ifndef MAJOR_METHOD_MANAGER_H
+#define MAJOR_METHOD_MANAGER_H
+
+#include <vector>
+#include <string>
+
+class MethodDefinition;
+
+class MethodManager {
+private:
+  //owned memory
+  std::vector<MethodDefinition*> allMethods_;
+public:
+  MethodManager();
+  ~MethodManager();
+  
+  MethodDefinition* getMethod(std::string identifier);
+  void addMethod(MethodDefinition* newMethod);
+  std::vector<MethodDefinition*>* allMethods();
+};
+
+#endif

@@ -1,0 +1,42 @@
+class Person extends Entity {
+  _construct (int birthYear, int deathYear, string nameP) {
+    startYear = birthYear;
+    endYear = deathYear;
+    name = nameP;
+  }
+}
+
+class Country extends Entity {
+  _construct (int founding, int dissolved, string nameP) {
+    startYear = founding;
+    endYear = dissolved;
+    name = nameP;
+  }
+}
+
+class Dictator extends Person {
+  Country countryInCharge;
+  Dictator enemy;
+  
+  _construct(int birthYear, int deathYear, string nameP, Country countryInChargeP) {
+    super(birthYear, deathYear, nameP);
+    countryInCharge = countryInChargeP;
+  }
+  
+  empty setEnemy(Dictator enemyP) {
+    enemy = enemyP;
+  }
+  
+  empty printName(void) {
+    print("The Dictator ");
+    println(name);
+  }
+  
+  string giveFullName(void) {
+    return(name + " of " + countryInCharge.name);
+  }
+}
+
+string firstString = "First String";
+string secondString = "Second String";
+println(firstString + " and " + secondString);

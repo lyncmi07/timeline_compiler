@@ -1,0 +1,7 @@
+class classes extends extender {
+  _construct classes(int hello, string world) {
+    
+  }
+}
+
+newer newest = new voids(emptyApples, "new classes(1000,2000)[]")[];

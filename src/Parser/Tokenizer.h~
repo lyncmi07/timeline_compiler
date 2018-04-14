@@ -1,0 +1,65 @@
+#ifndef MAJOR_TOKENIZER_H
+#define MAJOR_TOKENIZER_H
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include "Token.h"
+
+class PreProcessedFile;
+
+class Tokenizer {
+private:
+
+  //owned memory
+  Token* programToken_;
+
+  //not owned
+  PreProcessedFile* sourceFile_;
+
+  int currentIndex_;
+  int currentSymbolLength_;
+
+  void nextSymbol();
+  bool accept(Symbol s);
+
+  //non terminal functions
+  Token* program();
+  Token* codeBlock();
+  Token* line();
+  Token* statement();
+  Token* variableInitiation();
+  Token* variableDefinition();
+  Token* expression()
+  Token* subExpression();
+  Token* equation();
+  Token* objectDefinition();
+  Token* functionCall();
+  Token* parameterSettingStatement();
+  Token* lastParameterSetting();
+  Token* notLastParameterSetting();
+  Token* subVariableIdentifier();
+  Token* possibleObject();
+  Token* arrayImmediateDefinition();
+  Token* classCodeBlock();
+  Token* methodDefinition();
+  Token* parameterDefinitionStatement();
+  Token* parameterDefinitionStatementFilled();
+  Token* lastParameterDefinition();
+  Token* notLastParameterDefinition();
+  Token* constructionDefinition();
+
+public:
+  //Destructor: destroys programToken_
+  ~Tokenizer();
+  //Generates a new Tokenizer object and parses the source code of the file given in fileName
+  Tokenizer(PreProcessedFile* sourceFile);
+
+  //gets the root token (programToken_)
+  Token* programToken() {
+    return programToken_;
+  }
+};
+
+#endif
